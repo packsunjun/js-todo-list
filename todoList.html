@@ -101,16 +101,19 @@
       doneListTag.insertAdjacentHTML(
         "beforeend",
           `
-        <li class="ui-state-default">
+          <li>
               <div class="checkbox">
                 <label>
-                  <input onchange="" type="checkbox" />
+                  <input onchange="setDone(${todo.idx})" class="remove-item" type="checkbox" value="" />
                   <span>${todo.content}</span>
                 </label>
+                <button onclick="setDone(${todo.idx})" class="remove-item btn btn-default btn-xs pull-right">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
               </div>
             </li>
         `
-      )
+      );
 
     }
   }
@@ -124,7 +127,7 @@
       return;
     }
     // 반값이면 함수종료
-    if (contentTag == "") {
+    if (contentTag.value == "") {
       alert("입력칸에 입력해주세요")
       return;
     }
@@ -137,13 +140,15 @@
     const todo = {
       idx : newidx,
       content : contentTag.value,
-      deneYn : "N"
+      doneYn : "N"
     }
 
     data.globalCount = newidx;
     data.list.push(todo);
 
-    locationbar.setitem("data", JSON.stringify(data));
+    localStorage.setItem("data", JSON.stringify(data));
+
+    contentTag.value="";
 
     init();
   });
@@ -159,17 +164,17 @@
       //   data.list[updateIdx].doneYn == "N" ? "Y" : "N";
 
       if(data.list[updateIdx].doneYn == "N"){
-        data.list[updateIdx].doneYn == "Y";
+        data.list[updateIdx].doneYn = "Y";
       }else{
-        data.list[updateIdx].doneYn == "N";
+        data.list[updateIdx].doneYn = "N";
       }
-      localStorage.setitem("data",JSON.stringify(data));
+      localStorage.setItem("data",JSON.stringify(data));
 
       init();
     
     }
     // 데이터 삭제하기
-    const setdelete = (idx) => {
+    const setDelete = (idx) => {
       const datajson = localStorage.getItem("data");
       const data = JSON.parse(datajson);
 
@@ -178,7 +183,9 @@
       // splice : 몇개 지울건지
       data.list.splice(deleteIdx, 1);
 
-      localStorage.setitem("data",JSON.stringify(data));
+      localStorage.setItem("data",JSON.stringify(data));
+
+      init();
     }
 </script>
 
