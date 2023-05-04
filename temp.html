@@ -1,0 +1,10 @@
+<!-- temp.html -->
+<script>
+    const data = {key : "value"};
+    const json = JSON.stringify(data);
+    // alert(data); //문자열을 작성해야함
+    localStorage.setItem("test",data);
+    const newjson = localStorage.getItem("test");
+    const newData = JSON.parse(newjson);
+    alert(newjson)
+</script>;
